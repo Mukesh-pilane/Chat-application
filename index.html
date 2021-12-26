@@ -5,22 +5,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>friendslog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-    <section class="chat__section">
-        <div class="brand">
+          <div class="brand fixed-top">
             <img height="40" src="/wassup.png" alt="">
             <h1>friendslog</h1>
+            <p id="groupName" style="position:absolute;right:10%;color:red"></p>
         </div>
-        <div class="message__area"></div>
-        <div>
-            <textarea id="textarea" cols="30" rows="1" placeholder="Write a message..."></textarea>
-        </div>
+        <input type="number" />
+    <section class="chat__section">
+          <div class="message__area"></div>
     </section>
+     
+<footer class="footer bg-dark fixed-bottom">
+     <div class="input-group" style="background:#fff">
+         <div style="width:15%" class="input-group-prepend">
+      <button onclick="stickpad()" class="emoji" type="button">😐</button>
+      </div>
+      
+  <textarea id="textarea" onmouseover="hider()" style="resize:none;"  class="writer" placeholder="Write message..." aria-label="Write message..."></textarea>
+  
+  <div style="width:15%" class="input-group-append">
+    <p onclick="send()" class="send" type="button">Send</p>
+  </div>
+</div>
+    <div class="stickerpad d-none">
+      <div class="row" >
+        <div class="col-md-4 col-3">
+           <img src="STK-20200430-WA0015.webp" alt="#1" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20200526-WA0024.webp" alt="#2" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20200713-WA0004.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210509-WA0015.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210525-WA0011.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210511-WA0022.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210522-WA0006.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210525-WA0010.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210525-WA0014.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210525-WA0015.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210525-WA0016.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210526-WA0000.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210526-WA0004.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210526-WA0005.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210526-WA0009.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210526-WA0010.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210527-WA0010.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210528-WA0033.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210529-WA0000.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210601-WA0001.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210606-WA0004.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210610-WA0014.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210610-WA0016.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210620-WA0041.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210623-WA0005.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210623-WA0009.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210630-WA0005.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210630-WA0067.webp" alt="#" class="sticker"/>
+        </div>
+        <div class="col-md-4 col-3">
+           <img src="STK-20210630-WA0068.webp" alt="#" class="sticker"/>
+        </div>
+      </div>
+    </div>
+    </footer>
+</body>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/script.js"></script>
-</body>
+    <script
+  src="https://code.jquery.com/mobile/1.5.0-rc1/jquery.mobile-1.5.0-rc1.js"
+  integrity="sha256-ozaZ7ZptnEEuLpoEojfxBjOKXHoaQUb/DLnsTUEkIfs="
+  crossorigin="anonymous"></script>
 
 </html>
