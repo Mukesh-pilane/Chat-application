@@ -6,7 +6,8 @@ let room;
 let orignalHieght= window.innerHeight;
 let textarea = document.querySelector('#textarea')
 let messageArea = document.querySelector('.message__area')
-let body = document.querySelector('.chat__section')
+let chatSection= document.querySelector('.chat__section')
+
 let stickers = document.querySelector('.stickerpad');
 do{
   name= prompt("Please Enter Ur Name")
@@ -14,6 +15,11 @@ do{
 do{
   room= prompt("Room name")
 }while(!room )
+
+  document.querySelector("#groupName").textContent=room;
+
+
+document.querySelector(":root").style.setProperty("--msgaheight",`92vh`);
 window.onresize = dimensions;
 
 function dimensions(){
@@ -23,6 +29,7 @@ let dynamicHeight=window.innerHeight
 if(dynamicHeight!=orignalHieght){
   stickerpadHeight=orignalHieght - dynamicHeight;
   document.querySelector(":root").style.setProperty("--height",`${stickerpadHeight}px`)
+  
 }
 }
 
@@ -36,23 +43,23 @@ socket.emit('join', userinfo);
 
 textarea.addEventListener("keyup", (e) => {
   if(e.key==="Enter"){
+    
     sendMessage({msg:e.target.value,src:""})
   }
 })
 
 function send(){
   sendMessage({msg: textarea.value,src:""});
-  textarea.setAttribute("autofocus", "true");
-  $("textarea").trigger("focus")
 }
 
 function sendMessage(message){
   let msg={
     room:room,
     user:name,
-    message:message.msg.trim(),
+    message:message.msg.trim("" ),
     src:message.src
   }
+  console.log(msg.message)
   appendMessage(msg, "outgoing")
   textarea.value = ''
   scrollToBottom()
@@ -64,19 +71,17 @@ function appendMessage(msg, type){
   let mainDiv = document.createElement("div")
   let className = type
   mainDiv.classList.add(className, 'messages')
-  let markup =`<h1>${msg.user}</h1><p>${msg.message}</p>
-  <img src="${msg.src}"/>`
+  let markup;
   if(type=="outgoing"){
-    markup = `
-   <h1>You</h1>
-   <p>${msg.message}</p>
-   <img src="${msg.src}"/>
-  `
-  
+  markup =  `<a style="word-wrap: break-word;white-space:pre-wrap;">${msg.message}</a>
+    <img style ="width:150px;" src="${msg.src}"/>`
+  }else{
+    markup =`<h1>${msg.user}</h1>
+  <a style="word-wrap: break-word;white-space:pre-wrap;">${msg.message}</a>
+   <img style ="width:150px;" src="${msg.src}"/>`
   }
   
-  mainDiv.innerHTML=markup
-  
+  mainDiv.innerHTML=markup;
   messageArea.appendChild(mainDiv)
 }
 
@@ -108,7 +113,7 @@ socket.on('saved-message', (data) => {
      })
 scrollToBottom()
     }else{
-      console.log("no chats")
+      //nochats
     }
 });
 
@@ -116,12 +121,22 @@ function scrollToBottom() {
     messageArea.scrollTop = messageArea.scrollHeight
 }
 
+/*((((((((((((((((((Stikerpad))))))))))))))))))))*/
+
 function hider(){
   stickers.classList.add("d-none");
+  document.querySelector(":root").style.setProperty("--msgaheight",`95vh`);
 }
 
 function stickpad(){
- stickers.classList.remove("d-none");
+ 
+  setTimeout(function() {
+     let x= parseInt(document.querySelector(":root").style.getPropertyValue("--height").substring(0,3));
+  y= orignalHieght - x;
+    stickers.classList.remove("d-none");
+    document.querySelector(":root").style.setProperty("--msgaheight",`${y}px`);
+  }, 100);
+  
 }
 
 var sticker = document.querySelectorAll(".sticker");
