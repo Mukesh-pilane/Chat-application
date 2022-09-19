@@ -49,12 +49,12 @@ http.listen(PORT, () => {
 app.use(express.static(__dirname + '/public'))
 
 //routes
-app.get('/room', (req, res) => {
+app.get('/', (req, res) => {
     !req.session.user?res.redirect('join'):res.render("index", {user:req.session.user, room:req.session.room})
 })
 
-app.get('/', (req, res) =>{
-  !req.session.user?res.render("join"):res.redirect('/room')
+app.get('/join', (req, res) =>{
+  !req.session.user?res.render("join"):res.redirect('/')
 })
 
 //post routes
@@ -63,7 +63,7 @@ app.post('/lobby', (req, res) => {
   name = req.body.userName;
   req.session.user = name;
   req.session.room = room;
-  res.redirect("/room");
+  res.redirect("/");
 });
 
 app.get('/logout', function(req, res){
