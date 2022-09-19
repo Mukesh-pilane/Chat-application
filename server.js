@@ -21,7 +21,7 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 //mongodb connection and Schema
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => console.log(error))
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => console.log(err))
 
 const messageSchema = mongoose.Schema({
   room:String,
