@@ -50,11 +50,11 @@ app.use(express.static(__dirname + '/public'))
 
 //routes
 app.get('/room', (req, res) => {
-    !req.session.user?res.redirect('Join'):res.render("index", {user:req.session.user, room:req.session.room})
+    !req.session.user?res.redirect('join'):res.render("index", {user:req.session.user, room:req.session.room})
 })
 
 app.get('/', (req, res) =>{
-  !req.session.user?res.render("Join"):res.redirect('/room')
+  !req.session.user?res.render("join"):res.redirect('/room')
 })
 
 //post routes
