@@ -21,7 +21,7 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 //mongodb connection and Schema
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/your-app-name', err => {
+mongoose.connect(process.env.MONGODB_URI , err => {
   if(!err){
     console.log("Connected to database", process.env.MONGODB_URI)
   }else{
