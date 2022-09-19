@@ -1,10 +1,10 @@
 const express = require('express')
-const app = express()
+const app = express();
 const http = require('http').createServer(app)
 const mongoose = require('mongoose')
 const session = require('express-session') ;
-const bodyparser = require('body-parser')
-require('dotenv').config()
+const bodyparser = require('body-parser');
+require('dotenv').config();
 
 
 app.use(session({ 
@@ -21,11 +21,11 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 //mongodb connection and Schema
-mongoose.connect(process.env.MONGODB_URI, err => {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/your-app-name', err => {
   if(!err){
-    console.log("Connected")
+    console.log("Connected to database", process.env.MONGODB_URI)
   }else{
-    console.log(err)
+    console.log("Error: ", err)
   }
 });
 
@@ -42,7 +42,6 @@ const Message = mongoose.model('Message', messageSchema);
 //Server connection
 const PORT = process.env.PORT || 3000;
 
-app.set("port", PORT)
 http.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
