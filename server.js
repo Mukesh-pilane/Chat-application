@@ -40,8 +40,9 @@ const Message = mongoose.model('Message', messageSchema);
 
 
 //Server connection
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
+app.set("port", PORT)
 http.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
@@ -49,12 +50,12 @@ http.listen(PORT, () => {
 app.use(express.static(__dirname + '/public'))
 
 //routes
-app.get('/', (req, res) => {
+app.get('/room', (req, res) => {
     !req.session.user?res.redirect('join'):res.render("index", {user:req.session.user, room:req.session.room})
 })
 
-app.get('/join', (req, res) =>{
-  !req.session.user?res.render("join"):res.redirect('/')
+app.get('/', (req, res) =>{
+  !req.session.user?res.render("join"):res.redirect('/room')
 })
 
 app.post('/lobby', (req, res) => {
@@ -62,12 +63,12 @@ app.post('/lobby', (req, res) => {
   name = req.body.userName;
   req.session.user = name;
   req.session.room = room;
-  res.redirect("/");
+  res.redirect("/room");
 });
 
 app.get('/logout', function(req, res){
   req.session.user&&req.session.destroy();
-  res.redirect('/join')
+  res.redirect('/')
 })
 
 app.get('*', function(req, res){
