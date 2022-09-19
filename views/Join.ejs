@@ -20,7 +20,7 @@
       body {
         background:no-repeat;
         background-image: -webkit-linear-gradient(50deg, #039BE5 50%,#ecf0f3 50%);
-        min-height:760px;
+        min-height:100vh;
       }
 
       .wrapper {
@@ -111,20 +111,17 @@
   </head>
   <body oncontextmenu='return false' class='snippet-body'>
     <div class="wrapper">
-      <div class="logo"><img src="images/logo.png" alt=""></div>
-      <div class="text-center mt-4 name"> Friendslog </div>
-      <form class="p-3 mt-3">
-        <div class="form-field d-flex align-items-center"><span class="far fa-user"></span><input type="text" name="userName" id="userName" placeholder="Username" required></div>
+      <div class="logo"><img src="wassup.png" alt=""></div>
+      <div class="text-center mt-4 name"> Chat app</div>
+      <form class="p-3 mt-3" action="lobby" method="post">
+        <div class="form-field d-flex align-items-center"><span class="f"></span><input type="text" name="userName" id="userName" placeholder="Your Name" required autocomplete="off"></div>
        
-       <div class="form-field d-flex align-items-center"><span class="far fa-user"></span><input type="text" name="room" id="roomName" placeholder="" required></div>
+       <div class="form-field d-flex align-items-center"><span class="fas fa-room"></span><input type="text" name="room" id="roomNumber" placeholder="Room name" required autocomplete="off"></div>
         
-        <button class="btn mt-3">Login</button>
+        <button class="btn mt-3">Join</button>
       </form>
-      <div class="text-center fs-6"><a href="#">Forget password?</a> or <a href="#">Sign up</a></div>
+      <div class="text-center fs-6">
     </div>
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script>
-    <script type='text/javascript' src=''></script>
-    <script type='text/javascript' src=''></script>
-    <script type='text/Javascript'></script>
+
   </body>
 </html>

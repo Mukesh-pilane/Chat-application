@@ -1,45 +1,61 @@
 const socket = io()
 
 
-let name;
-let room;
+let name = document.querySelector("#userName").textContent;
+let room = document.querySelector("#groupName").textContent
+;
+
 let orignalHieght= window.innerHeight;
 let textarea = document.querySelector('#textarea')
 let messageArea = document.querySelector('.message__area')
 let chatSection= document.querySelector('.chat__section')
 
 let stickers = document.querySelector('.stickerpad');
-do{
-  name= prompt("Please Enter Ur Name")
-}while(!name)
-do{
-  room= prompt("Room name")
-}while(!room )
 
-  document.querySelector("#groupName").textContent=room;
+
 
 
 document.querySelector(":root").style.setProperty("--msgaheight",`92vh`);
 window.onresize = dimensions;
 
+//dinamic hieght generator
 function dimensions(){
-
 let stickerpadHeight;
 let dynamicHeight=window.innerHeight
 if(dynamicHeight!=orignalHieght){
   stickerpadHeight=orignalHieght - dynamicHeight;
   document.querySelector(":root").style.setProperty("--height",`${stickerpadHeight}px`)
-  
 }
 }
+console.log(window.innerHeight, window.innerWidth)
 
 let userinfo ={
   user:name,
   room:room
 }
 
-socket.emit('join', userinfo);
+socket.emit('userroom', userinfo);
 
+socket.on('userroom', info =>{
+  let joined= document.createElement("p");
+  joined.innerHTML=`<p>${info.user} as joined the chat</p>`
+  joined.classList.add("joiner")
+  messageArea.appendChild(joined)
+  scrollToBottom()
+});
+
+function leave(){
+socket.emit('leave', userinfo)
+}
+
+socket.on("userleft", info =>{
+  console.log(info)
+  let joined= document.createElement("p");
+  joined.innerHTML=`<p>${info.user} as left the chat</p>`
+  joined.classList.add("joiner")
+  messageArea.appendChild(joined)
+  scrollToBottom()
+})
 
 textarea.addEventListener("keyup", (e) => {
   if(e.key==="Enter"){
@@ -90,13 +106,7 @@ socket.on('message', msg => {
     scrollToBottom()
 });
 
-socket.on('join', info =>{
-  let joined= document.createElement("p");
-  joined.innerHTML=`<p>${info.user} as joined the chat</p>`
-  joined.classList.add("joiner")
-  messageArea.appendChild(joined)
-  scrollToBottom()
-});
+
 
 
 

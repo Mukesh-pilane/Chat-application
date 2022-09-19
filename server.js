@@ -2,8 +2,23 @@ const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
 const mongoose = require('mongoose')
+const session = require('express-session') ;
+const bodyparser = require('body-parser')
+
 const URL ="mongodb+srv://mukeshpilane:123mukesh@cluster0.ut91y.mongodb.net/friendslog?retryWrites=true&w=majority"
 
+app.use(session({ 
+    secret: 'not a secret',
+    resave: true,
+    saveUninitialized: true
+}))
+
+//middleware
+
+app.set('view engine', 'ejs')
+
+app.use(bodyparser.urlencoded({extended:false}))
+app.use(bodyparser.json())
 
 //mongodb connection and Schema
 mongoose.connect(URL, err => {
@@ -35,8 +50,29 @@ app.use(express.static(__dirname + '/public'))
 
 //routes
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
+    !req.session.user?res.redirect('join'):res.render("index", {user:req.session.user, room:req.session.room})
 })
+
+app.get('/join', (req, res) =>{
+  !req.session.user?res.render("join"):res.redirect('/')
+})
+
+app.post('/lobby', (req, res) => {
+  room = req.body.room;
+  name = req.body.userName;
+  req.session.user = name;
+  req.session.room = room;
+  res.redirect("/");
+});
+
+app.get('/logout', function(req, res){
+  req.session.user&&req.session.destroy();
+  res.redirect('/join')
+})
+
+app.get('*', function(req, res){
+  res.render('error');
+});
 
 // Socket connection
 const io = require('socket.io')(http)
@@ -46,11 +82,16 @@ io.on('connection', socket => {
     console.log('Connected...')
   //join notifiction data sender
   let Room;
-  socket.on("join", userinfo => {
+  socket.on("userroom", userinfo => {
     socket.join(userinfo.room)
-    console.log(socket.join)
     Room = userinfo.room;
-    socket.broadcast.to(Room).emit('join', userinfo);
+    socket.broadcast.to(Room).emit('userroom', userinfo);
+  })
+  
+  //leaving notifiction data sender
+  socket.on("leave", userinfo =>{
+    socket.leave(userinfo.room);
+    socket.broadcast.to(userinfo.room).emit("userleft", userinfo);
   })
 
 // sending saved message 
@@ -65,7 +106,7 @@ Message.find({},(err,data)=> {
     
   // sending current message
     socket.on('message',  msg => {
-       socket.broadcast.to(Room).emit('message', msg);
+       socket.broadcast.to(msg.room).emit('message', msg);
        const message = new Message(
          msg
        );
