@@ -21,13 +21,7 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 //mongodb connection and Schema
-mongoose.connect(process.env.MONGODB_URI , err => {
-  if(!err){
-    console.log("Connected to database", process.env.MONGODB_URI)
-  }else{
-    console.log("Error: ", err)
-  }
-});
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => console.log(error))
 
 const messageSchema = mongoose.Schema({
   room:String,
@@ -97,21 +91,31 @@ io.on('connection', socket => {
 
 // sending saved message 
 Message.find({},(err,data)=> {
-      if(!err){
+  try{
+    if(!err){
     socket.emit('saved-message', data);
       }else{
         console.log(err)
       }
+  }catch(e){
+    console.log(e);
+  }
+      
     });
 
     
   // sending current message
     socket.on('message',  msg => {
-       socket.broadcast.to(msg.room).emit('message', msg);
+      try{
+        socket.broadcast.to(msg.room).emit('message', msg);
        const message = new Message(
          msg
        );
        message.save()
+      }catch(error){
+        console.log('error', error);
+      }
+       
    })
 
 })
