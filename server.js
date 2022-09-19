@@ -57,6 +57,7 @@ app.get('/', (req, res) =>{
   !req.session.user?res.render("Join"):res.redirect('/room')
 })
 
+//post routes
 app.post('/lobby', (req, res) => {
   room = req.body.room;
   name = req.body.userName;
