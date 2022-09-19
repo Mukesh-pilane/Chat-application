@@ -4,8 +4,8 @@ const http = require('http').createServer(app)
 const mongoose = require('mongoose')
 const session = require('express-session') ;
 const bodyparser = require('body-parser')
+require('dotenv').config()
 
-const URL ="mongodb+srv://mukeshpilane:123mukesh@cluster0.ut91y.mongodb.net/friendslog?retryWrites=true&w=majority"
 
 app.use(session({ 
     secret: 'not a secret',
@@ -21,7 +21,7 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 //mongodb connection and Schema
-mongoose.connect(URL, err => {
+mongoose.connect(process.env.MONGODB_URI, err => {
   if(!err){
     console.log("Connected")
   }else{
