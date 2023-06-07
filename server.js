@@ -22,7 +22,7 @@ app.use(bodyparser.json())
 
 //mongodb connection and Schema
 
-mongoose.connect("mongodb+srv://mukeshpilane:123mukesh@cluster0.ut91y.mongodb.net/friendslog?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => console.log(err))
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => console.log(err))
 
 const messageSchema = mongoose.Schema({
   room:String,
